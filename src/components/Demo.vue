@@ -24,12 +24,11 @@
     </h1>
     <label for="r3">5.首字母转大写(过滤器使用)</label>
     <input type="checkbox" id="r3" v-model="change1" />
-    {{ cap | capitalize }}
+    {{ cap | capitalize(change1) }}
   </div>
 </template>
 
 <script>
-var app
 export default {
   name: 'Demo',
   data () {
@@ -43,20 +42,18 @@ export default {
       cap: 'helloWorld'
     }
   },
-  beforeCreate: function () {
-    app = this
-  },
+
   methods: {
     clickMe: function () {
       alert('你是坏人，不听话！')
     }
   },
   filters: {
-    capitalize: function (value) {
+    capitalize: function (value, change1) {
       // eslint-disable-next-line semi
       if (!value) return '';
       value = value.toString()
-      if (app.change1) return value.charAt(0).toUpperCase() + value.slice(1)
+      if (change1) return value.charAt(0).toUpperCase() + value.slice(1)
       return value
     }
   }
