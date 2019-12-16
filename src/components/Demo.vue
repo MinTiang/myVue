@@ -10,21 +10,31 @@
     <template v-if="ok">
       <h1>菜鸟教程</h1>
       <p>学的不仅是技术，更是梦想！</p>
-      <p>哈哈哈，打字辛苦啊！！！</p> </template
-    ><br />
+      <p>哈哈哈，打字辛苦啊！！！</p>
+    </template><br />
     <a v-on:click="clickMe">4.别点我</a>
     <h1>
       {{
-        message
-          .split("")
-          .reverse()
-          .join("")
+        message.split("").reverse().join("")
       }}
       <input type="text" v-model="message" />
     </h1>
     <label for="r3">5.首字母转大写(过滤器使用)</label>
     <input type="checkbox" id="r3" v-model="change1" />
-    {{ cap | capitalize(change1) }}
+    {{cap | capitalize(change1) }}
+    <br>
+    <label for="v-if1">测试v-if功能</label><input type="text" v-model="show" id="v-if1" />
+    <label v-if="show==='A'">输入了A</label>
+    <label v-else-if="show==='B'">输入了B</label>
+    <label v-else>输入了其他{{show}}</label>
+    <br>
+    <label>显示一个随机数{{randomNum}}</label>
+    <label>v-for例子,for循环的第二个参数为数组下标</label>
+    <ol>
+      <li v-for="(user,index) in  userList" :key="user" :key2="index">
+        {{user.name}}{{index}}
+      </li>
+    </ol>
   </div>
 </template>
 
@@ -39,7 +49,13 @@ export default {
       ok: false,
       message: '子例的容内转反和定绑向双个一是这',
       change1: false,
-      cap: 'helloWorld'
+      cap: 'helloWorld',
+      show: '',
+      randomNum: Math.random(),
+      userList: [
+        { name: 'qwe' }, { name: 'wer' }, { name: 'ert' }
+      ]
+
     }
   },
 
