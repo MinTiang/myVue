@@ -10,8 +10,8 @@
     <template v-if="ok">
       <h1>菜鸟教程</h1>
       <p>学的不仅是技术，更是梦想！</p>
-      <p>哈哈哈，打字辛苦啊！！！</p> </template
-    ><br />
+      <p>哈哈哈，打字辛苦啊！！！</p>
+    </template><br />
     <a v-on:click="clickMe">4.别点我</a>
     <h1>
       {{
