@@ -32,9 +32,16 @@
     <label>v-for例子,for循环的第二个参数为数组下标</label>
     <ol>
       <li v-for="(user,index) in  userList" :key="user" :key2="index">
-        {{user.name}}{{index}}
+        {{user.name}}--{{index}}
       </li>
     </ol>
+    <label>v-for例子,循环数组中的map</label>
+    <ol>
+      <li v-for="(user) in  userList" :key="user.name">
+        {{user.name}}{{user.age}}--{{index}}
+      </li>
+    </ol>
+    <label>computed使用，反转示例，{{reverseMessage}}</label>
   </div>
 </template>
 
@@ -53,7 +60,7 @@ export default {
       show: '',
       randomNum: Math.random(),
       userList: [
-        { name: 'qwe' }, { name: 'wer' }, { name: 'ert' }
+        { name: 'dqwe', age: 12 }, { name: 'cwer', age: 12 }, { name: 'bert', age: 12 }
       ]
 
     }
@@ -71,6 +78,11 @@ export default {
       value = value.toString()
       if (change1) return value.charAt(0).toUpperCase() + value.slice(1)
       return value
+    }
+  },
+  computed: {
+    reverseMessage: function () {
+      return this.msg.split('').reverse('').join('')
     }
   }
 }
