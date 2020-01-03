@@ -42,6 +42,14 @@
       </li>
     </ol>
     <label>computed使用，反转示例，{{reverseMessage}}</label>
+    <label>监听器使用，可以监听变量的改变（这是变量number）number={{number}}</label>
+    <input type="button" value="点我增加number的值" @click="number++"><br>
+    <label>使用监听器换算长度单位</label><br>
+    <input type="text" v-model="kilometers"><label>千米</label>
+    <input type="text" v-model="meters" /><label>米</label><br>
+    <div v-bind:class="{active:active,'text_danger':hasError}">使用样式</div>
+    <div v-bind:class="cssObject">样式也可以是个json对象</div>
+    <div v-bind:class="[activeCss,text_dangerCss]">样式也可以是个数组</div>
   </div>
 </template>
 
@@ -59,10 +67,20 @@ export default {
       cap: 'helloWorld',
       show: '',
       randomNum: Math.random(),
+      number: 0,
+      meters: 0,
+      kilometers: 0,
       userList: [
         { name: 'dqwe', age: 12 }, { name: 'cwer', age: 12 }, { name: 'bert', age: 12 }
-      ]
-
+      ],
+      active: true,
+      hasError: true,
+      cssObject: {
+        active: true,
+        'text_danger': true
+      },
+      activeCss: 'active',
+      text_dangerCss: 'text_danger'
     }
   },
 
@@ -84,6 +102,17 @@ export default {
     reverseMessage: function () {
       return this.msg.split('').reverse('').join('')
     }
+  },
+  watch: {
+    number: function (nval, oval) {
+      alert('number由:' + oval + '变为:' + nval)
+    },
+    meters: function (val) {
+      this.kilometers = val / 1000
+    },
+    kilometers: function (val) {
+      this.meters = val * 1000
+    }
   }
 }
 </script>
@@ -92,5 +121,14 @@ export default {
 .class1 {
   background: cadetblue;
   color: cornsilk;
+}
+.active {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  float: left;
+}
+.text_danger {
+  background-color: green;
 }
 </style>
