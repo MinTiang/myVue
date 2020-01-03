@@ -50,6 +50,10 @@
     <div v-bind:class="{active:active,'text_danger':hasError}">使用样式</div>
     <div v-bind:class="cssObject">样式也可以是个json对象</div>
     <div v-bind:class="[activeCss,text_dangerCss]">样式也可以是个数组</div>
+    <input type="button" value='-' @click="buttonCss.fontSize--">{{buttonCss.fontSize}}<input type="button" value='+' @click="buttonCss.fontSize++">
+    <div :style="{color:buttonCss.color,fontSize:buttonCss.fontSize+'px'}">按钮控制字体大小</div>
+    <input type="button" @click="sayHello" @keyup.13="sayHello" value='事件驱动,点击我或单机enter键'>
+    <input type="number">
   </div>
 </template>
 
@@ -80,13 +84,20 @@ export default {
         'text_danger': true
       },
       activeCss: 'active',
-      text_dangerCss: 'text_danger'
+      text_dangerCss: 'text_danger',
+      buttonCss: {
+        color: 'green',
+        fontSize: 10
+      }
     }
   },
 
   methods: {
     clickMe: function () {
       alert('你是坏人，不听话！')
+    },
+    sayHello: function () {
+      alert('Hello')
     }
   },
   filters: {
