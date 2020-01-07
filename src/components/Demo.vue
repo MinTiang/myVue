@@ -31,13 +31,13 @@
     <label>显示一个随机数{{randomNum}}</label>
     <label>v-for例子,for循环的第二个参数为数组下标</label>
     <ol>
-      <li v-for="(user,index) in  userList" :key="user" :key2="index">
+      <li v-for="(user,index) in  userList" :key="index">
         {{user.name}}--{{index}}
       </li>
     </ol>
     <label>v-for例子,循环数组中的map</label>
     <ol>
-      <li v-for="(user) in  userList" :key="user.name">
+      <li v-for="(user,index) in  userList" :key="index">
         {{user.name}}{{user.age}}--{{index}}
       </li>
     </ol>
@@ -54,10 +54,28 @@
     <div :style="{color:buttonCss.color,fontSize:buttonCss.fontSize+'px'}">按钮控制字体大小</div>
     <input type="button" @click="sayHello" @keyup.13="sayHello" value='事件驱动,点击我或单机enter键'>
     <input type="number">
+    <select v-model="selected" name='select'>
+      <option v-for="(option,index) in select" :key="index" :value="option.value">{{option.key}}</option>
+    </select>
+    <span>选择框的值:{{selected}}</span>
+    <label for="radio1">单选框1</label><input id="radio1" type="radio" v-model="radioValue" name="radioTest" value='radio1'>
+    <label for="radio2">单选框2</label><input id="radio2" type="radio" v-model="radioValue" name="radioTest" value='radio2'>
+    <span>单选值为:{{radioValue}}</span><br>
+    <input type="checkbox" v-model="allSelect" id="allSelect"><label for="allSelect">全选</label>
+    <input type="checkbox" v-model="reverSelect" id="reverSelect"><label for="reverSelect">反选</label>
+    <label :for="option.value" v-for="(option,index) in select" :key="index"><input type='checkbox' :id="option.value" v-model="checkboxValue" :value="option.value">{{option.key}}</label>
+
+    <br>
+    <span>多选框选择的值:{{checkboxValue}}</span><br>
+    <span>---------------------------------------华丽丽的分割线，因为下面开始学习组件了--------------------------------------------------------</span><br>
+    <component1></component1>
+    <component2></component2>
+    <component3 :message='cap'></component3>
   </div>
 </template>
 
 <script>
+import Vue from 'vue'
 export default {
   name: 'Demo',
   data () {
@@ -88,7 +106,18 @@ export default {
       buttonCss: {
         color: 'green',
         fontSize: 10
-      }
+      },
+      select: [
+        { key: '请选择', value: 'qingxuanze' },
+        { key: '语文', value: 'yuwen' },
+        { key: '数学', value: 'shuxue' },
+        { key: '自然', value: 'ziran' }
+      ],
+      selected: 'qingxuanze',
+      radioValue: 'radio2',
+      checkboxValue: [],
+      allSelect: false,
+      reverSelect: false
     }
   },
 
@@ -123,9 +152,45 @@ export default {
     },
     kilometers: function (val) {
       this.meters = val * 1000
+    },
+    allSelect: function () {
+      if (this.allSelect) {
+        this.checkboxValue = this.select.map(item => item.value)
+      } else {
+        this.checkboxValue = []
+      }
+    },
+    reverSelect: function () {
+      // if (this.reverSelect) {
+      // this.checkboxValue = this.select.map(item => item.value).filter(x => !this.checkboxValue.some(x))
+      let checkboxValueSet = new Set(this.checkboxValue)
+      this.checkboxValue = [...new Set([...this.select.map(item => item.value)].filter(x => !checkboxValueSet.has(x)))]
+      // } else {
+
+      // }
+    },
+    checkboxValue: function () {
+      if (this.checkboxValue.length === this.select.length) {
+        this.allSelect = true
+      } else {
+        this.allSelect = false
+      }
+    }
+  },
+  components: {
+    'component2': {
+      template: '自定义组件2：这是一个局部组件，定义在实例中' // 不知道为啥页面不显示，可能是因为这个页面不是示例而是模块把
     }
   }
 }
+Vue.component('component1', {
+  template: '<span>自定义组件1:这是一个全局组件</span>'
+})
+
+Vue.component('component3', {
+  props: ['message'],
+  template: '<span>自定义组件3:这是一个全局组件，使用父组件的属性值,可以动态绑定:{{message}}</span>'
+})
 </script>
 
 <style>

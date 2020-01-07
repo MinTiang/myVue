@@ -7,11 +7,11 @@ Vue.use(Router)
 
 export default new Router({
   routes: [{
-    path: '/',
+    path: '/helloWorld',
     name: 'HelloWorld',
     component: HelloWorld
   }, {
-    path: '/demo',
+    path: '/',
     name: 'Demo',
     component: Demo
   }]
