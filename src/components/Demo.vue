@@ -68,9 +68,14 @@
     <br>
     <span>多选框选择的值:{{checkboxValue}}</span><br>
     <span>---------------------------------------华丽丽的分割线，因为下面开始学习组件了--------------------------------------------------------</span><br>
-    <component1></component1>
-    <component2></component2>
-    <component3 :message='cap'></component3>
+    <component1></component1><br>
+    <component2></component2><br>
+    <component3 :message='cap'></component3><br>
+    <br><span>自定义组件，子组件触发父组件事件</span>
+    {{number}}
+    <component4 @increment="increment"></component4>
+    <component4 @increment="increment"></component4><br>
+    <input type="text" v-focus><br>
   </div>
 </template>
 
@@ -127,6 +132,9 @@ export default {
     },
     sayHello: function () {
       alert('Hello')
+    },
+    increment: function (val) {
+      this.number = this.number + val
     }
   },
   filters: {
@@ -144,9 +152,6 @@ export default {
     }
   },
   watch: {
-    number: function (nval, oval) {
-      alert('number由:' + oval + '变为:' + nval)
-    },
     meters: function (val) {
       this.kilometers = val / 1000
     },
@@ -179,7 +184,7 @@ export default {
   },
   components: {
     'component2': {
-      template: '自定义组件2：这是一个局部组件，定义在实例中' // 不知道为啥页面不显示，可能是因为这个页面不是示例而是模块把
+      template: '<span>自定义组件2：这是一个局部组件，定义在实例中</span>' // 不知道为啥页面不显示，可能是因为这个页面不是示例而是模块把
     }
   }
 }
@@ -190,6 +195,29 @@ Vue.component('component1', {
 Vue.component('component3', {
   props: ['message'],
   template: '<span>自定义组件3:这是一个全局组件，使用父组件的属性值,可以动态绑定:{{message}}</span>'
+})
+
+// 子组件的事件触发父组件的事件
+Vue.component('component4', {
+  template: '<button @click="incrementTotal">{{count}}</button>',
+  data: function () {
+    return {
+      count: 0
+    }
+  },
+  methods: {
+    incrementTotal: function () {
+      this.count++
+      // 第一个参数表示触发的父组件事件名，第二个参数表示父组件事件的参数，参数传不传都可以
+      this.$emit('increment', 2)
+    }
+  }
+})
+// 自定义指令，非常好玩，加载dom就获取到焦点
+Vue.directive('focus', {
+  inserted: function (el) {
+    el.focus()
+  }
 })
 </script>
 
