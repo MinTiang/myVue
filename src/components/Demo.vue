@@ -45,8 +45,8 @@
     <label>监听器使用，可以监听变量的改变（这是变量number）number={{number}}</label>
     <input type="button" value="点我增加number的值" @click="number++"><br>
     <label>使用监听器换算长度单位</label><br>
-    <input type="text" v-model="kilometers"><label>千米</label>
-    <input type="text" v-model="meters" /><label>米</label><br>
+    <input type="text" v-model.number="kilometers"><label>千米</label>
+    <input type="text" v-model.number="meters" /><label>米</label><br>
     <div v-bind:class="{active:active,'text_danger':hasError}">使用样式</div>
     <div v-bind:class="cssObject">样式也可以是个json对象</div>
     <div v-bind:class="[activeCss,text_dangerCss]">样式也可以是个数组</div>
@@ -76,11 +76,13 @@
     <component4 @increment="increment"></component4>
     <component4 @increment="increment"></component4><br>
     <input type="text" v-focus><br>
+    <span v-directive2="{text:'我的自定义指令',bcolor:'green',color:'white'}"></span>
   </div>
 </template>
 
 <script>
 import Vue from 'vue'
+import axios from 'axios'
 export default {
   name: 'Demo',
   data () {
@@ -186,6 +188,20 @@ export default {
     'component2': {
       template: '<span>自定义组件2：这是一个局部组件，定义在实例中</span>' // 不知道为啥页面不显示，可能是因为这个页面不是示例而是模块把
     }
+  },
+  directives: {
+    focus: {
+      inserted: function (el) {
+        el.focus()
+      }
+    }
+  },
+  mounted () {
+    axios.get('https://weixintest.xacbank.com.cn/xasale/token')
+      .then(response => (this.msg = response))
+      .catch(function (error) {
+        console.log(error)
+      })
   }
 }
 Vue.component('component1', {
@@ -213,11 +229,16 @@ Vue.component('component4', {
     }
   }
 })
-// 自定义指令，非常好玩，加载dom就获取到焦点
+// 自定义全局指令，非常好玩，加载dom就获取到焦点
 Vue.directive('focus', {
   inserted: function (el) {
     el.focus()
   }
+})
+Vue.directive('directive2', function (el, binding) {
+  el.innerHTML = binding.value.text
+  el.style.backgroundColor = binding.value.bcolor
+  el.style.color = binding.value.color
 })
 </script>
 
