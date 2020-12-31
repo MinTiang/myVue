@@ -77,6 +77,11 @@
     <component4 @increment="increment"></component4><br>
     <input type="text" v-focus><br>
     <span v-directive2="{text:'我的自定义指令',bcolor:'green',color:'white'}"></span>
+    <slotTest>
+      <font style="color:red;">匿名插槽父组件赋予的值</font>
+      <font style="color:red;" slot="slot2">具名插槽2父组件赋予的值</font>
+      <font style="color:#0000ff;">即使一个匿名插槽在父组件中使用了两次，最终显示的值也是在一起</font>
+    </slotTest>
   </div>
 </template>
 
@@ -187,7 +192,8 @@ export default {
   components: {
     'component2': {
       template: '<span>自定义组件2：这是一个局部组件，定义在实例中</span>' // 不知道为啥页面不显示，可能是因为这个页面不是示例而是模块把
-    }
+    },
+    'slotTest': () => import('./slotTest')
   },
   directives: {
     focus: {

@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Demo from '@/components/Demo'
+import vantCommonTest from '@/components/vantCommonTest'
+import pageRoute  from "@/components/pageRoute";
 
 Vue.use(Router)
 // 2. 定义路由
@@ -18,9 +20,17 @@ export default new Router({
     path: '/demo',
     name: 'Demo',
     component: Demo
+  }, {
+    path: '/index',
+    name: '首页',
+    component: pageRoute
   }, { // 这里引用的就是一个自定义组件
     path: '/component4',
     name: 'component4',
     component: Demo.components.component2
+  }, {
+    path: '/vantCommonTest',
+    name: 'vant组件测试',
+    component: vantCommonTest
   }]
 })

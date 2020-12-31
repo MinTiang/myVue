@@ -37,7 +37,7 @@ export default {
   name: 'App',
   data () {
     return {
-      demo: '/demo1'
+      demo: '/demo'
     }
   }
 }
